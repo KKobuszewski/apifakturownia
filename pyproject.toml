@@ -1,0 +1,73 @@
+[project]
+# --- Metadane projektu (zgodne z PEP 621) ---
+name = "apifakturownia"
+dynamic = [ "version" ]
+description = "Klient API Fakturownia (InvoiceOcean) dla Python, z walidacją Pydantic."
+authors = [
+    { name = "Konrad Kobuszewski", email = "konrad.kobuszewski93@gmail.com" },
+]
+license-files = [
+    "LICENSE"
+]
+readme = "README.md"
+keywords = ["fakturownia", "api", "finanse", "billing", "pydantic"]
+requires-python = ">=3.10"
+classifiers = [
+#    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+#homepage = "https://python-poetry.org/"
+repository = "https://github.com/KKobuszewski/apifakturownia"
+#documentation = "https://python-poetry.org/docs/"
+"Bug Tracker" = "https://github.com/KKobuszewski/apifakturownia/issues"
+
+[tool.poetry]
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+# --- Zależności produkcyjne (Runtime) ---
+python = "^3.10" # Określamy minimalną wersję Pythona (zalecamy 3.10+)
+requests = "^2.28.1"
+pydantic = "^2.11.9" # Ważne, aby używać Pydantic V2 dla nowoczesnych DTOs
+
+[tool.poetry.group.dev.dependencies]
+# --- Zależności deweloperskie (do testowania i QA) ---
+pytest = "^7.0"
+pytest-cov = "^4.1.0"
+black = "^23.1.0"
+mypy = "^1.7.1"
+isort = "^5.12.0"
+
+[build-system]
+# --- Konfiguracja systemu budowania ---
+# Wymagane, aby Poetry użyło własnego backendu budowania
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# --- Konfiguracja narzędzi (Tooling) ---
+
+[tool.black]
+# Formatowanie kodu zgodnie z PEP 8
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.isort]
+# Sortowanie importów
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+# Statyczna analiza typów (zgodna z silnym typowaniem w Pydantic)
+files = ["apifakturownia", "tests"]
+strict = true
+ignore_missing_imports = true
+warn_unreachable = true
+allow_redefinition = false
+
+#[build-system]
+# Określa backend do budowania paczki. Setuptools jest najpopularniejszym wyborem.
+#requires = ["setuptools>=61.0.0", "wheel"]
+#build-backend = "setuptools.build_meta"
+
