@@ -24,7 +24,11 @@ repository = "https://github.com/KKobuszewski/apifakturownia"
 "Bug Tracker" = "https://github.com/KKobuszewski/apifakturownia/issues"
 
 [tool.poetry]
+name = "apifakturownia"
 version = "0.1.0"
+description = "Klient API Fakturownia (InvoiceOcean) dla Python, z walidacją Pydantic."
+authors = ["KKobuszewski <konrad.kobuszewski93@gmail.com>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 # --- Zależności produkcyjne (Runtime) ---
@@ -43,7 +47,7 @@ isort = "^5.12.0"
 [build-system]
 # --- Konfiguracja systemu budowania ---
 # Wymagane, aby Poetry użyło własnego backendu budowania
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 # --- Konfiguracja narzędzi (Tooling) ---
