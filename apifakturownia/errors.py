@@ -1,4 +1,5 @@
 
+from typing import Optional
 
 class FakturowniaAPIException(Exception):
     """Bazowa klasa dla wyjątków API Fakturownia."""

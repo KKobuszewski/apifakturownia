@@ -2,6 +2,7 @@ from datetime import date
 from typing import List, Literal, Optional, Any, Dict, Type, Union
 from pydantic import BaseModel, Field, conlist, ValidationError as PydanticValidationError
 
+from pydantic import ConfigDict, RootModel
 
 # --- definitions of constants and literals  ---
 
@@ -30,20 +31,22 @@ class CorrectionAttributesDTO(BaseModel):
 
 class InvoicePositionDTO(BaseModel):
     """Model dla pojedynczej pozycji na fakturze.[4]"""
-    id: Optional[int] = None
+    id: int
     name: str
     quantity: Union[int, float] = Field(..., gt=0, description="Ilość musi być dodatnia, chyba że jest to korekta.")
     total_price_gross: Union[str, float]
     tax: VatRate
 
+    # TODO: Dodać oddzielną pozycję d
     # Pola specyficzne dla faktur korygujących [1]
-    kind: Optional[str] = None # Używane np. "correction" dla pozycji korygującej
-    correction_before_attributes: Optional = None
-    correction_after_attributes: Optional = None
+    #kind: Optional[str] = None # Używane np. "correction" dla pozycji korygującej
+    #correction_before_attributes: Optional = None
+    #correction_after_attributes: Optional = None
 
     # Konfiguracja Pydantic
     class Config:
         populate_by_name = True
+        #arbitrary_types_allowed = True
 
 
 class InvoiceDTO(BaseModel):

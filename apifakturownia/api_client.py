@@ -27,8 +27,16 @@ class InvoicesEndpoint:
         # Odpowiedź API Fakturownia często zwraca obiekt bezpośrednio, bez opakowania 'invoice'
         return InvoiceDTO.model_validate(response_data)
 
-    def list_invoices(self, period: str = 'this_month', date_from: Optional[date] = None, date_to: Optional[date] = None,
-                      page: int = 1, per_page: int = 100, include_positions: bool = False, **kwargs) -> List:
+    def list_invoices(
+            self, 
+            period: str = 'this_month',
+            date_from: Optional[date] = None,
+            date_to: Optional[date] = None,
+            page: int = 1,
+            per_page: int = 100,
+            include_positions: bool = False,
+            **kwargs
+        ) -> List:
         """Pobiera listę faktur z filtrowaniem i paginacją (GET /invoices.json).[2, 3]"""
         params = {
             'period': period,
@@ -44,12 +52,12 @@ class InvoicesEndpoint:
 
         params.update(kwargs) # Dodatkowe parametry jak 'kind', 'number'
 
-        response_data = self.client._make_request('GET', self.endpoint_base, params=params)
+        response_data = self.client._make_request('GET', self.endpoint_base, request_params=params)
 
         # API zwraca listę słowników, które musimy zwalidować jako DTO
-        return
+        return response_data
 
-    def update_invoice(self, invoice_id: int, update_data: Union]) -> InvoiceDTO:
+    def update_invoice(self, invoice_id: int, update_data: Union) -> InvoiceDTO:
         """Aktualizuje istniejącą fakturę (PUT /invoices/{id}.json).[2]"""
         endpoint = f'/invoices/{invoice_id}.json'
 
@@ -107,14 +115,14 @@ class FakturowniaApiClient:
 
         # Dynamiczne wstrzykiwanie tokena autoryzacyjnego:
         # 1. Metody zapisu (POST, PUT) - token w ciele JSON [1]
-        if method in:
+        if method.upper() in ['POST', 'PUT']:
             # Token musi być w głównym obiekcie JSON
             if request_json is None:
                 request_json = {}
-            request_json['api_token'] = self.api_token
+                request_json['api_token'] = self.api_token
 
         # 2. Metody odczytu/usuwania (GET, DELETE) - token w query string [2, 3]
-        elif method in:
+        elif method.upper() in ['GET', 'DELETE']:
             request_params['api_token'] = self.api_token
 
         try:
